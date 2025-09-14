@@ -27,12 +27,16 @@ public class AddProductUseCase {
      * @throws IllegalArgumentException Si el producto con el ID ya existe o los datos son inválidos.
      */
     public void execute(String id, String name, double price, int stock) {
-        // Validación de existencia para evitar IDs duplicados, una regla de negocio clave.
         if (productRepository.findById(id).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un producto con el ID: " + id);
+            throw new IllegalArgumentException("Ya existe un producto con ese ID. Por favor, elija otro.");
         }
-        // La validación de los datos del producto (price, stock) se realiza en el constructor de Product.
-        Product newProduct = new Product(id, name, price, stock);
-        productRepository.save(newProduct);
+        try {
+            Product newProduct = new Product(id, name, price, stock);
+            productRepository.save(newProduct);
+        } catch (IllegalArgumentException e) {
+            // Mensaje seguro, no revela detalles internos
+            throw new IllegalArgumentException("Datos inválidos: " + e.getMessage());
+        }
     }
+
 }

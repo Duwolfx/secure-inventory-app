@@ -14,26 +14,25 @@ public class Product {
     private double price;
     private int stock;
 
-    public Product(String id, String name, double price, int stock) {
-        // Validación básica de datos para seguridad y consistencia del dominio.
-        if (id == null || id.trim().isEmpty()) {
-            throw new IllegalArgumentException("El ID del producto no puede ser nulo o vacío.");
-        }
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del producto no puede ser nulo o vacío.");
-        }
-        if (price <= 0) {
-            throw new IllegalArgumentException("El precio del producto debe ser mayor que cero.");
-        }
-        if (stock < 0) {
-            throw new IllegalArgumentException("El stock del producto no puede ser negativo.");
-        }
-
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
+public Product(String id, String name, double price, int stock) {
+    if (id == null || !id.matches("^[a-zA-Z0-9_-]{3,20}$")) {
+        throw new IllegalArgumentException("El ID debe ser alfanumérico (3-20 caracteres).");
     }
+    if (name == null || !name.matches("^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ.,'-]{3,50}$")) {
+        throw new IllegalArgumentException("El nombre contiene caracteres inválidos o es demasiado corto.");
+    }
+    if (price < 0.01 || price > 10000) {
+        throw new IllegalArgumentException("El precio debe estar entre $0.01 y $10,000.");
+    }
+    if (stock < 0) {
+        throw new IllegalArgumentException("El stock no puede ser negativo.");
+    }
+    // ...asignación de campos...
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.stock = stock;
+}
 
     public String getId() {
         return id;

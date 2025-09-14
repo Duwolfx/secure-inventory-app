@@ -59,17 +59,17 @@ public class Main {
                         productController.listAllProducts();
                         break;
                     case 0:
-                        System.out.println("👋 Saliendo de la aplicación. ¡Hasta luego!");
+                        System.out.println("Saliendo de la aplicación. ¡Hasta luego!");
                         break;
                     default:
-                        System.out.println("⚠️ Opción no válida. Por favor, intente de nuevo.");
+                        System.out.println("Opción no válida. Por favor, intente de nuevo.");
                 }
             } catch (InputMismatchException e) {
-                System.err.println("❌ Entrada inválida. Por favor, ingrese un número.");
+                System.err.println("Entrada inválida. Por favor, ingrese un número.");
                 scanner.nextLine(); // Limpiar la entrada inválida
                 choice = -1; // Para que el bucle continúe
             } catch (Exception e) {
-                System.err.println("❌ Ocurrió un error inesperado: " + e.getMessage());
+                System.err.println("Ocurrió un error inesperado: " + e.getMessage());
                 choice = -1;
             }
             System.out.println(); // Salto de línea para mejor legibilidad
@@ -102,7 +102,14 @@ public class Main {
             return;
         }
 
-        controller.addProduct(id, name, price, stock);
+        try {
+            controller.addProduct(id, name, price, stock);
+            System.out.println("Producto agregado correctamente.");
+        } catch (IllegalArgumentException e) {
+            System.err.println("No se pudo agregar el producto: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error inesperado. Por favor, contacte al administrador.");
+        }
     }
 
     private static void updateProduct(Scanner scanner, ProductController controller) {
@@ -138,7 +145,7 @@ public class Main {
                 scanner.nextLine(); // Consumir la nueva línea
                 return value;
             } catch (InputMismatchException e) {
-                System.err.println("❌ Entrada inválida para " + fieldName + ". Por favor, ingrese un número decimal.");
+                System.err.println("Entrada inválida para " + fieldName + ". Por favor, ingrese un número decimal.");
                 scanner.nextLine(); // Limpiar la entrada inválida
                 System.out.print("Ingrese " + fieldName + " del producto: ");
             }
@@ -152,7 +159,7 @@ public class Main {
                 scanner.nextLine(); // Consumir la nueva línea
                 return value;
             } catch (InputMismatchException e) {
-                System.err.println("❌ Entrada inválida para " + fieldName + ". Por favor, ingrese un número entero.");
+                System.err.println("Entrada inválida para " + fieldName + ". Por favor, ingrese un número entero.");
                 scanner.nextLine(); // Limpiar la entrada inválida
                 System.out.print("Ingrese " + fieldName + " del producto: ");
             }
